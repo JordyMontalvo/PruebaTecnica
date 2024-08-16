@@ -1,5 +1,4 @@
 <?php
-// Inicializar un array para almacenar los datos
 $pobreza_data = array();
 
 for ($year = 1995; $year <= 2020; $year++) {
