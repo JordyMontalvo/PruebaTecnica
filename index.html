@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráfico de Pobreza en Perú</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+<body>
+
+<div id="container" style="width:100%; height:400px;"></div>
+
+<script type="text/javascript">
+    // Realizar la solicitud AJAX para obtener los datos
+    fetch('/Grafico.php')
+        .then(response => response.json())
+        .then(data => {
+            // Formatear los datos para Highcharts
+            var years = [];
+            var headcount = [];
+            for (var i = 0; i < data.length; i++) {
+                years.push(data[i].year);
+                headcount.push(data[i].headcount);
+            }
+
+            // Configurar y renderizar el gráfico con Highcharts
+            Highcharts.chart('container', {
+                title: {
+                    text: 'Índice de Pobreza en Perú (1995-2020)'
+                },
+                xAxis: {
+                    categories: years,
+                    title: {
+                        text: 'Año'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Pobreza (%)'
+                    }
+                },
+                series: [{
+                    name: 'Pobreza',
+                    data: headcount
+                }]
+            });
+        })
+        .catch(error => console.error('Error al obtener los datos:', error));
+</script>
+
+</body>
+</html>
